@@ -1,0 +1,110 @@
+* {
+    text-align: center;
+    font-family: "Duru Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+
+    --header-color: rgb(58,58,58);
+    --background-color: rgb(71,71,71);
+    --highlight-color: #8CE9FF;
+    --secondary-highlight-color: rgb(34, 214, 255);
+    --dim-highlight-color: rgb(56, 85, 92);
+    --text-color: rgb(200, 200, 200);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+header{
+    margin: 0px;
+    padding: 30px;
+    color: var(--highlight-color);
+    background-color: var(--header-color);
+    transition: 0.3s ease all;
+}
+
+h1{
+    font-family: "Dancing Script", sans-serif;
+    font-size: 75px;
+}
+
+
+
+.text-area{
+    width: 60%;
+    min-height: 5px;
+    height: auto;
+    max-height: 600px;
+    margin: auto;
+    padding: 20px 100px;
+    resize: none;
+    word-wrap: break-word;
+    align-self: center;    
+    color: var(--text-color);
+    border: 7px solid var(--header-color);
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background: var(--background-color);
+    border-top: 0px;
+    transition: 0.3s ease all;
+}
+.text-area:focus{
+    outline: none;
+}
+.text-area:hover{
+    border-color: var(--highlight-color);
+}
+
+.task-list{
+    position: relative;
+    margin: 0px 25%;
+    padding: 20px 20px;
+    list-style: none;
+}
+
+.task{
+    word-wrap: break-word;
+    margin: 10px 0px;
+    padding: 20px 20px;
+    width: auto;
+    border: 5px solid var(--highlight-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.task:hover{
+    background-color: var(--dim-highlight-color);
+}
+
+.draggableTask{
+    word-wrap: break-all;
+    margin: 10px 0px;
+    padding: 20px 20px;
+    background: rgba(71,71,71,1);
+    border: 5px solid var(--highlight-color);
+    border-radius: 10px;
+}
+
+.taskspan{
+    border: none;
+}
+
+.imagespan{
+    vertical-align: center;
+}
+
+.image{
+    vertical-align: center;
+    padding: 3px;
+    border: 2px solid black;
+    border-radius: 50%;
+    background-color: var(--background-color);
+    transition: 0.3s ease all;
+}
+.image:hover{
+    background-color: rgb(202, 62, 62);
+}
