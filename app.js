@@ -79,7 +79,7 @@ function createImageSpan(){
     imgspan.draggable = false;
     imgspan.className = "imagespan";
     imgspan.style.position = "absolute";
-    imgspan.style.left = "-3%";
+    imgspan.style.left = "-30px";
     return imgspan;
 }
 
