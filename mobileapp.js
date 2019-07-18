@@ -102,11 +102,13 @@ function addTaskEventListeners(task){
     
     task.addEventListener("touchend", function(event){
         var changedTouchItem = event.changedTouches.item(0);
-        var elemFromPoint = document.elementFromPoint(changedTouchItem.pageX, changedTouchItem.pageY);
+        var elemFromPoint = document.elementsFromPoint(changedTouchItem.pageX, changedTouchItem.pageY)[1];
+        console.log(elemFromPoint);
         swapTaskStyle("end", event);
         task_LIST.removeChild(cloneTask);
-        if(elemFromPoint.className="task" && elemFromPoint.className != "image" && elemFromPoint.className != "imagespan"){
+        if(elemFromPoint.className=="task" && elemFromPoint.className != "image" && elemFromPoint.className != "imagespan"){
             draggedTask.borderColor = highlight_COLOR;
+            console.log(elemFromPoint.className);
             swapTasks(elemFromPoint); 
         }
         
