@@ -79,7 +79,7 @@ function createImageSpan(){
     imgspan.draggable = false;
     imgspan.className = "imagespan";
     imgspan.style.position = "absolute";
-    imgspan.style.left = "-30px";
+    imgspan.style.left = "-3%";
     return imgspan;
 }
 
@@ -179,7 +179,6 @@ function startDragObject(event){
 }
 
 function dragObject(event){
-    //cloneTask.style.left = event.pageX + "px";
     offset = -210;
     cloneTask.style.top = (event.pageY+offset) + "px";
     cloneTask.style.visibility = "visible"; 
