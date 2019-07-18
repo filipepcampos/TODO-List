@@ -42,6 +42,7 @@ function addTask(){
     task_INPUT.blur();
     if(taskText != ""){
         let newTask = createTaskObject(taskText);
+        newTask.style.marginTop = "10%";
         task_LIST.appendChild(newTask);
         addTaskEventListeners(newTask);   
     }     
@@ -102,22 +103,30 @@ function addTaskEventListeners(task){
 
     task.addEventListener("touchmove", function(event){
         if(isDragging){
-        dragObject(event);
+            event.preventDefault();
+            dragObject(event);
     }});
     
     task.addEventListener("touchend", function(event){
         var changedTouchItem = event.changedTouches.item(0);
         var elemFromPoint = document.elementsFromPoint(changedTouchItem.pageX, changedTouchItem.pageY)[1];
-        console.log(elemFromPoint);
         swapTaskStyle("end", event);
         task_LIST.removeChild(cloneTask);
         if(elemFromPoint.className=="task" && elemFromPoint.className != "image" && elemFromPoint.className != "imagespan"){
             draggedTask.borderColor = highlight_COLOR;
-            console.log(elemFromPoint.className);
             swapTasks(elemFromPoint); 
+            var tasksQuery = document.querySelectorAll(".task");
+            for(i=0; i < tasksQuery; i++){
+                tasksQuery[i].style.borderStyle="solid";
+            }
         }
         
-    })
+    });
+
+    // Add delete functionality to X image
+    task.childNodes[1].addEventListener("click", function(event){
+        task_LIST.removeChild(task);
+    });
 }
 
 function swapTaskStyle(string, event) {
@@ -161,7 +170,29 @@ function dragObject(event){
     var elem = event.changedTouches.item(0);
     cloneTask.style.top = (elem.pageY+offset) + "px";
     cloneTask.style.visibility = "visible"; 
+    verifyDragOver(event);
 }
+
+function verifyDragOver(event){
+    var elem = event.changedTouches.item(0);
+    var elemsFromPoint = document.elementsFromPoint(elem.pageX, elem.pageY);
+    for(i=0; i<elemsFromPoint.length; i++){
+        if(elemsFromPoint[i].className == "task"){
+            elemsFromPoint[i].style.borderStyle = "dotted";
+        }
+    }
+    
+    let tasksFromQuery = document.querySelectorAll(".task");
+    let tasksArray = Array.from(tasksFromQuery);
+    var elemsNOTfromPoint = tasksArray.filter(function(x){  
+                             return elemsFromPoint.indexOf(x) < 0;});
+    for(i=0; i<elemsNOTfromPoint.length; i++){
+        if(elemsNOTfromPoint[i].className == "task"){
+            elemsNOTfromPoint[i].style.borderStyle = "solid";
+        }
+    }
+}
+
 
 // Swap two tasks upon drop
 function swapTasks(targetTask){
@@ -188,21 +219,13 @@ function changeHeaderColor(){
         HEADER.style.color = header_COLOR;
         task_INPUT.style.borderColor = highlight_COLOR;
         headerHighlight = true;
-        console.log("highlighting");
     }
     else{
         HEADER.style.backgroundColor = header_COLOR;
         HEADER.style.color = highlight_COLOR;
         task_INPUT.style.borderColor = header_COLOR;
         headerHighlight = false;
-        console.log("bluring");
     }    
-}
-
-function verifyDragOver(event){
-    var changedTouch = event.changedTouches.item(0);
-    var elem = document.elementFromPoint(changedTouch.pageX, changedTouch.pageY);
-    elem.style.backgroundColor = "#FF00FF";
 }
 
 main();
