@@ -24,13 +24,14 @@ function addFormInputEventListeners(){
     task_FORM.addEventListener("submit", addTask);
     task_FORM.addEventListener("keypress", function(event){
         submitOnEnter(event)});
-    task_INPUT.addEventListener("mouseover", changeHeaderColor);
-    task_INPUT.addEventListener("mouseout", changeHeaderColor); 
     task_INPUT.addEventListener("focus", function(event){
-        event.target.placeholder = "";
+        if(!headerHighlight){
+            changeHeaderColor();}
     })
     task_INPUT.addEventListener("blur", function(event){
-        event.target.placeholder = "New Task";
+        if(headerHighlight){
+            changeHeaderColor();
+        }
     })
 }
 
@@ -38,6 +39,7 @@ function addFormInputEventListeners(){
 function addTask(){
     let taskText = task_INPUT.innerHTML;
     task_INPUT.innerHTML = "";
+    task_INPUT.blur();
     if(taskText != ""){
         let newTask = createTaskObject(taskText);
         task_LIST.appendChild(newTask);
@@ -88,6 +90,9 @@ function addTaskEventListeners(task){
     task.addEventListener("touchstart", function(event){
         if(event.target.className != "image" && event.target.className != "imagespan" && event.target.className == "task"){
             draggedTask = event.target;
+            if(headerHighlight){
+                changeHeaderColor();
+            }            
             swapTaskStyle("start",event);
             startDragObject(event);
             isDragging = true;
@@ -181,12 +186,16 @@ function changeHeaderColor(){
     if(!headerHighlight){
         HEADER.style.backgroundColor = highlight_COLOR;
         HEADER.style.color = header_COLOR;
+        task_INPUT.style.borderColor = highlight_COLOR;
         headerHighlight = true;
+        console.log("highlighting");
     }
     else{
         HEADER.style.backgroundColor = header_COLOR;
         HEADER.style.color = highlight_COLOR;
+        task_INPUT.style.borderColor = header_COLOR;
         headerHighlight = false;
+        console.log("bluring");
     }    
 }
 
