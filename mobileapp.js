@@ -85,60 +85,31 @@ function createImageSpan(){
 
 // Add Event listeners to new Task to allow drag and drop
 function addTaskEventListeners(task){
-    // When drag starts: Assign draggedTask and change style
-    task.addEventListener("dragstart", function(event){
-        if(event.target.className != "image" && event.target.className != "imagespan"){
+    task.addEventListener("touchstart", function(event){
+        if(event.target.className != "image" && event.target.className != "imagespan" && event.target.className == "task"){
             draggedTask = event.target;
-            event.dataTransfer.setDragImage(document.createElement("span"), 0, 0);
             swapTaskStyle("start",event);
             startDragObject(event);
             isDragging = true;
-        }        
-        else{return false};
-    }, false);
+        }
+        else{return false;}
+    });
 
-    // On Drag
-    task.addEventListener("drag", function(event){
-        if(event.target.className != "image" && event.target.className != "imagespan"){
-            dragObject(event);
-        } });    
-
-    // When drag enters another task: Change style
-    task.addEventListener("dragenter", function(event){
-        if(event.target != draggedTask && event.target.className != "image" && event.target.className != "imagespan"){
-            swapTaskStyle("enter",event);            
-        }});
-
-    // When drag leaves task: Change style back to normal
-    task.addEventListener("dragleave", function(event){
-        if(event.target != draggedTask && event.target.className != "image" && event.target.className != "imagespan"){
-            swapTaskStyle("leave",event);
-        }});
-
-    // On dragover prevent default
-    task.addEventListener("dragover", function(event){
-        event.preventDefault();}, false);
-
-    // On drag end change style
-    task.addEventListener("dragend", function(event){
-        if(event.target.className!="image" && event.target.className != "imagespan"){
-            swapTaskStyle("end", event);
-            task_LIST.removeChild(cloneTask);
-        }        
-    })
-
-    // Drop task and swap tasks
-    task.addEventListener("drop", function(event){
-        event.preventDefault();
-        if(event.target.className!="image" && event.target.id != "imagespan"){
+    task.addEventListener("touchmove", function(event){
+        if(isDragging){
+        dragObject(event);
+    }});
+    
+    task.addEventListener("touchend", function(event){
+        var changedTouchItem = event.changedTouches.item(0);
+        var elemFromPoint = document.elementFromPoint(changedTouchItem.pageX, changedTouchItem.pageY);
+        swapTaskStyle("end", event);
+        task_LIST.removeChild(cloneTask);
+        if(elemFromPoint.className="task" && elemFromPoint.className != "image" && elemFromPoint.className != "imagespan"){
             draggedTask.borderColor = highlight_COLOR;
-           swapTasks(event.target); 
-        }           
-    })
-
-    // Add delete functionality to X image
-    task.childNodes[1].addEventListener("click", function(event){
-        task_LIST.removeChild(task);
+            swapTasks(elemFromPoint); 
+        }
+        
     })
 }
 
@@ -180,7 +151,8 @@ function startDragObject(event){
 
 function dragObject(event){
     offset = -210;
-    cloneTask.style.top = (event.pageY+offset) + "px";
+    var elem = event.changedTouches.item(0);
+    cloneTask.style.top = (elem.pageY+offset) + "px";
     cloneTask.style.visibility = "visible"; 
 }
 
@@ -214,6 +186,12 @@ function changeHeaderColor(){
         HEADER.style.color = highlight_COLOR;
         headerHighlight = false;
     }    
+}
+
+function verifyDragOver(event){
+    var changedTouch = event.changedTouches.item(0);
+    var elem = document.elementFromPoint(changedTouch.pageX, changedTouch.pageY);
+    elem.style.backgroundColor = "#FF00FF";
 }
 
 main();
